@@ -27,15 +27,15 @@ __注意: ワークショップ開始前に上記の事前準備が完了して�
 
 # Workshop Steps
 
-_Note: It is assumed your using a mac for these steps but it should also work on windows or linux with some modifications to the scripts potentially_
+__注: 以下のステップでは主に Mac の利用を想定していますが、Windows または Linux 上でもスクリプトを一部変更することで対応できます。__
 
 ## Step 1 Nodejs-Goof アプリケーションのフォーク
 
-Navigate to the following GitHub repo - https://github.com/snyk-labs/nodejs-goof
+次の GitHub リポジトリにアクセスしてください - https://github.com/snyk-labs/nodejs-goof
 
-* Click on the "**Fork**" button
-* Ensure you are forking this repo to your public GitHub account
-* Click done
+* "**Fork**" ボタンを選択します
+* フォーク先がご自身のパブリックな GitHub アカウントであることを確かめます
+* "**Create fork**" ボタンを選択します
 
 ![alt tag](https://i.ibb.co/Gdf7N2W/snyk-starter-open-source-2.png)
 
