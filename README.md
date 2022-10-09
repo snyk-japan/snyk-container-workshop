@@ -72,16 +72,16 @@ Snyk が入力されたクレデンシャルを確認した後、ページはリ
 
 ## Step 4 プロジェクトの追加 (コンテナイメージのスキャン)
 
-You may already have images in your Dockerhub Registries but lets go and add a new one to your Docker Hub account. 
+Docker Hub レジストリにはすでにイメージが存在するかもしれませんが、あなたの Docker Hub アカウントに新しいイメージを追加してみましょう。
 
-* Login to Docker Hub as shown below. These will be the same credentials you used in Step 3 above.
+* 次のように Docker Hub にログインします。Step 3 で使ったのと同じクレデンシャルを用いてください。
 
 ```bash
 $ docker login -u DOCKER_HUB_USERNAME -p YOUR_ACCESS_TOKEN_OR_PASSWORD
 Login Succeeded
 ```
 
-* Pull down the following image as shown below. 
+* 次のようにイメージを pull (取得) します。
 
 ```bash
 $ docker pull pasapples/docker-goof
@@ -92,14 +92,18 @@ Status: Downloaded newer image for pasapples/docker-goof:latest
 docker.io/pasapples/docker-goof:latest
 ```
 
-* Run the following commands to TAG and PUSH the image to your Docker Hub account. 
-  
-Note: Replace DOCKER_HUB_USERNAME with your Docker Hub username. 
+* 次のコマンドを実行してイメージへ tag (タグ付け) します。
+
+注: 以下では、DOCKER_HUB_USERNAME はあなたの Docker Hub ユーザー名に置き換えてください。
 
 ```bash
 $ docker tag pasapples/docker-goof:latest DOCKER_HUB_USERNAME/docker-goof:latest
+```
 
-$ $ docker push DOCKER_HUB_USERNAME/docker-goof:latest
+* 次のコマンドを実行してイメージを Docker Hub アカウントに push (送信) します。
+
+```bash
+$ docker push DOCKER_HUB_USERNAME/docker-goof:latest
 The push refers to repository [docker.io/pasapples/docker-goof]
 1bc5d83ccce7: Layer already exists
 35bda1fbb3d0: Layer already exists
@@ -119,47 +123,47 @@ e54368741774: Layer already exists
 latest: digest: sha256:be2d6b0f5041315f632f44e3528ea513c452cc95ed4a40bc3d70f943ab293e5f size: 3466
 ```
 
-* Return to the Snyk Dashboard and click on "**Add your Docker Hub Images to Snyk**"
+* Snyk Web UI へ戻り、"**Add your Docker Hub Images to Snyk**" ボタンを選択します。
 
-* Search for "**docker-goof**" and then select it and click "**Add Selected Repositories**"
+* "**docker-goof**" で検索し、イメージを選択してから、"**Add Selected Repositories**"　ボタンを選択します。
 
 ![alt tag](https://i.ibb.co/mq421V8/snyk-container-3.png)
 
-* This may take a few minutes, so you can view the Import using the link provided as follows
+* この操作は完了までに数分を要します。待っている間、次のリンクを用いて Import の状況を確認することができます。
 
 ![alt tag](https://i.ibb.co/PQy4pzq/snyk-container-4.png)
 
-* Once complete your container scan should appear as follows
+* 完了すると、コンテナスキャンの結果が次のとおり表示されます。
 
 ![alt tag](https://i.ibb.co/NTX9KV2/snyk-container-5.png)
 
-When Snyk Container scans an image, using any of the available integrations, we first find the software installed in the image, including:
+Snyk Container が提供されているインテグレーションを使ってイメージをスキャンすると、まずイメージに含まれるソフトウェアを検出します。これらのソフトウェアには次のものが含まれます。
 
-1. dpkg, rpm and apk operating systems packages.
-1. Popular unmanaged software, ie. installed outside a package manager.
-1. Application packages based on the presence of a manifest file.
+1. dpkg、rpm、apk のオペレーションシステム・パッケージ
+1. アンマネージドな (すなわちパッケージマネージャーを使わずにインストールされた) ソフトウェア
+1. マニフェストファイルの存在により検出されたアプリケーションパッケージ
 
-_Note: the container does not need to be run as Snyk reads the info from the file system; therefore, no container or foreign code needs to be run in order to successfully scan._
+__注: Snyk は必要な情報をファイルシステムより取得するため、コンテナを実行する必要はありません。よって、スキャンを完了するためにコンテナや外部コードの実行は必要ありません。__
 
-After we have the list of installed software, we look that up against our vulnerability database, which combines public sources with proprietary research
+インストール済みソフトウェアのリストを検出すると、次に Snyk はそれらを脆弱性データベースと照合します。このデータベースは公開情報と独自の研究成果を組み合わせたものです。
 
-* Let's go ahead and click on the "**latest**" link to view the container issues as part of the scan
+* "**latest**" のリンクを選択して、スキャン結果の一部であるコンテナ脆弱性を確認しましょう
 
 ![alt tag](https://i.ibb.co/HGS4MSP/snyk-container-7.png)
 
-One thing you will notice is recommendations for upgrading the base image. This is handy as we can remove a substantial amount of issues just by using an alternative base image from minor upgrades to major upgrades if available will be shown including what issues will remain if the basde image is changed and the container re-built.  
+ここで、ベースイメージの更新が推奨されていることに気づくはずです。ベースイメージを置き換えるだけで数多くの脆弱性を修正することができるため、これは非常に便利です。マイナーバージョンアップやメジャーバージョンアップを用いた更新の選択肢が提示されると共に、ベースイメージを更新してコンテナを再構築した場合に残される脆弱性についても情報が提供されます。
 
-The supported base images can be found at this [link](https://snyk.io/docker-images/)
+サポート対象のベースイメージについてはこの[リンク](https://snyk.io/docker-images/)でご確認ください。
 
-For each Vulnerability, Snyk displays the following ordered by our [Proprietary Priority Score](https://snyk.io/blog/snyk-priority-score/) :
+検出された脆弱性は [Priority Score](https://snyk.io/blog/snyk-priority-score/) でソートされ、脆弱性ごとに以下の情報が提供されます。
 
-1. The module (O/S, base image or user instruction layer) that introduced it and, in the case of transitive dependencies, its direct dependency
-1. Details on the path and proposed Remediation, as well as the specific vulnerable functions
-1. Overview
-1. Exploit maturity
-1. Links to CWE, CVE and CVSS Score
-1. Social Trends
-1. Plus more ...
+1. 脆弱性を混入させたモジュール (OS、ベースイメージまたはユーザーレイヤーのいずれであるか) と、それが推移的依存パッケージの場合は直接的依存パッケージが明示される
+1. パスと修正方法、脆弱な関数
+1. 概要
+1. エクスプロイトマチュリティ (攻撃可能性)
+1. CWE と CVE へのリンクと CVSS スコア
+1. ソーシャルネットワークにおけるトレンド
+1. その他
 
 ## Step 5 プロジェクトの追加 (Dockerfile のスキャン)
 
