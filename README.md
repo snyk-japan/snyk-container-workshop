@@ -37,7 +37,7 @@ __注: 以下のステップでは主に Mac の利用を想定しています�
 * フォーク先がご自身のパブリックな GitHub アカウントであることを確かめます
 * "**Create fork**" ボタンを選択します
 
-![alt tag](https://i.ibb.co/Gdf7N2W/snyk-starter-open-source-2.png)
+<img width="1327" alt="image" src="https://user-images.githubusercontent.com/95601557/194745394-c2d4543c-f0c5-48b1-9ab4-18c8e2e4cea7.png">
 
 ## Step 2 GitHub インテグレーションの設定
 
