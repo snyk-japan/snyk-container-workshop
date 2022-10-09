@@ -334,7 +334,7 @@ Tested 20 dependencies for known issues, found 38 issues.
 
 * CLI は特定の深刻度 (Severity) 以上の脆弱性だけを検出させることも可能です。深刻度のしきい値フラグ "**--severity-threshold=high**" を指定して深刻度 HIGH 以上の脆弱性を調べてみます。深刻度が HIGH または CRITICAL の脆弱性だけが検出されます。
 
-```shell
+```
 $ snyk container test --severity-threshold=high pasapples/springbootemployee:cnb
 
 Testing pasapples/springbootemployee:cnb...
