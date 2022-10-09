@@ -41,11 +41,13 @@ __注: 以下のステップでは主に Mac の利用を想定しています�
 
 ## Step 2 GitHub インテグレーションの設定
 
-First we need to connect Snyk to GitHub so we can import our Repository. Do so by:
+注: GitHub インテグレーションを設定済みの場合、このステップは省略できます。次のステップへ進んでください。
 
-* Login to http://app.snyk.io Sign up if you haven't already.
-* Navigating to Integrations -> Source Control -> GitHub
-* Fill in your Account Credentials to Connect your GitHub Account.
+Snyk を GitHub に接続してリポジトリをインポートできるようにします。以下のステップを実行してください。
+
+* http://app.snyk.io へログインする (サインアップをしていない場合はここでサインアップ)
+* Integrations タブ -> Source Control -> GitHub を選択する
+* クレデンシャルを設定して GitHub アカウントへ接続する
 
 ![alt tag](https://i.ibb.co/bPqqybM/snyk-starter-open-source-1.png)
 
