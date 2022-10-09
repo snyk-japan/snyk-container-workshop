@@ -6,14 +6,13 @@ Snyk Container を使うとコンテナイメージ内の脆弱性を検出、�
 
 このハンズオンワークショップでは以下のステップをカバーします。
 
-* [Step 1 Goof アプリケーションのフォーク](#step-1-fork-the-goof-application)
-* [Step 2 GitHub　インテグレーションの設定](#step-2-configure-github-integration)
-* [Step 3 Docker Hub　インテグレーションの設定](#step-3-configure-docker-hub-integration) 
+* [Step 1 Nodejs-Goof アプリケーションのフォーク](#step-1-fork-the-goof-application)
+* [Step 2 GitHub インテグレーションの設定](#step-2-configure-github-integration)
+* [Step 3 Docker Hub インテグレーションの設定](#step-3-configure-docker-hub-integration) 
 * [Step 4 プロジェクトの追加 (コンテナイメージのスキャン)](#step-4-test-using-the-add-to-project-docker-hub-integration)
-* [Step 5 さらにプロジェクトの追加 (Dockerfile のスキャン)](#step-5-find-vulnerabilities-in-goofs-dockerfile)
+* [Step 5 プロジェクトの追加 (Dockerfile のスキャン)](#step-5-find-vulnerabilities-in-goofs-dockerfile)
 * [Step 6 Pull Request によるベースイメージの更新](#step-6-fix-the-dockerfile-from-tag-using-a-pull-request)
 * [Step 7 Snyk CLI を用いたコンテナイメージのスキャン](#step-7-container-test-using-the-snyk-cli)
-* [Step 8 レポート機能の参照](#step-8-container-reporting-dashboard)
 
 ## Prerequisites
 
@@ -30,9 +29,9 @@ _NOTE: Please ensure you have meet the Prerequisites prior to starting this work
 
 _Note: It is assumed your using a mac for these steps but it should also work on windows or linux with some modifications to the scripts potentially_
 
-## Step 1 Fork the Goof Application
+## Step 1 Nodejs-Goof アプリケーションのフォーク
 
-Navigate to the following GitHub repo - https://github.com/snyk/goof
+Navigate to the following GitHub repo - https://github.com/snyk-labs/nodejs-goof
 
 * Click on the "**Fork**" button
 * Ensure you are forking this repo to your public GitHub account
@@ -40,7 +39,7 @@ Navigate to the following GitHub repo - https://github.com/snyk/goof
 
 ![alt tag](https://i.ibb.co/Gdf7N2W/snyk-starter-open-source-2.png)
 
-## Step 2 Configure GitHub Integration
+## Step 2 GitHub インテグレーションの設定
 
 First we need to connect Snyk to GitHub so we can import our Repository. Do so by:
 
@@ -50,7 +49,7 @@ First we need to connect Snyk to GitHub so we can import our Repository. Do so b
 
 ![alt tag](https://i.ibb.co/bPqqybM/snyk-starter-open-source-1.png)
 
-## Step 3 Configure Docker Hub Integration
+## Step 3 Docker Hub インテグレーションの設定
 
 Enable integration between Docker Hub and Snyk, to start managing your container vulnerabilities. To do that we must first connect to Docker Hub 
 
@@ -69,7 +68,7 @@ Note: As the access token, you can either use your DockerHub password or an [acc
 
 [Detecting application vulnerabilities in container images](https://support.snyk.io/hc/en-us/articles/360008593457-Detecting-application-vulnerabilities-in-container-images)
 
-## Step 4 Test using the Add to Project Docker Hub Integration
+## Step 4 プロジェクトの追加 (コンテナイメージのスキャン)
 
 You may already have images in your Dockerhub Registries but lets go and add a new one to your Docker Hub account. 
 
@@ -160,7 +159,7 @@ For each Vulnerability, Snyk displays the following ordered by our [Proprietary 
 1. Social Trends
 1. Plus more ...
 
-## Step 5 Find vulnerabilities in Goof’s Dockerfile
+## Step 5 プロジェクトの追加 (Dockerfile のスキャン)
 
 Snyk detects vulnerable base images by scanning your Dockerfile when importing a Git repository. This allows you to examine security issues before building the image, so helps solve potential problems before they land in your registry or in production.
 
@@ -184,7 +183,7 @@ _Note: The import can take up to one minute, so you can view the import log whil
 
 In a Dockerfile project, you can find the relevant metadata of the Dockerfile and the base image used. If the base image is an [Official Docker image](https://docs.docker.com/docker-hub/official_images/), the results include recommendations for upgrades to resolve some of the discovered vulnerabilities
 
-## Step 6 Fix the Dockerfile FROM tag using a Pull Request
+## Step 6 Pull Request によるベースイメージの更新
 
 Here we will go ahead and fix our Dockerfile using the "**Open a Fix PR**" button as follows:
 
@@ -208,7 +207,7 @@ Here we will go ahead and fix our Dockerfile using the "**Open a Fix PR**" butto
 
 ![alt tag](https://i.ibb.co/pbqmR1v/snyk-container-17.png)
 
-## Step 7 Container Test using the Snyk CLI
+## Step 7 Snyk CLI を用いたコンテナイメージのスキャン
 
 The Snyk CLI can run a container test on containers sitting in a registry and even your local docker deamon if you like. All the Snyk CLI needs is access to the registry itself which is for public Docker Hub images only requires a "docker login" to achieve that. The following examples show how to use the Snyk CLI to issue a container test.
 
@@ -407,16 +406,6 @@ Notifications about newly disclosed issues related to these dependencies will be
 ![alt tag](https://i.ibb.co/vY63PXR/snyk-container-12.png)
 
 * Return to the Snyk App and this time you will see the container image 
-
-## Step 8 Container Reporting Dashboard
-
-_Note: It can take up to an hour for report pages to show full details so if you see very little detail that would be why_
-
-* Back to the Snyk App navigate to the projects page and select "**View report**" for the "**docker-goof**" project as shown below
-
-* The following report page for the "**docker-goof**" container should be displayed
-
-![alt tag](https://i.ibb.co/yPFVyt2/snyk-container-11.png)
 
 Thanks for attending and completing this workshop
 
