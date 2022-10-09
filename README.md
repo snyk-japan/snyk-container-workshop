@@ -14,16 +14,16 @@ Snyk Container を使うとコンテナイメージ内の脆弱性を検出、�
 * [Step 6 Pull Request によるベースイメージの更新](#step-6-pull-request-によるベースイメージの更新)
 * [Step 7 Snyk CLI を用いたコンテナイメージのスキャン](#step-7-snyk-cli-を用いたコンテナイメージのスキャン)
 
-## Prerequisites
+## 事前準備 (以下をご用意ください)
 
-* public GitHub account - http://github.com
+* GitHub アカウント (パブリックであること) - http://github.com
 * git CLI - https://git-scm.com/downloads
-* snyk CLI - https://support.snyk.io/hc/en-us/articles/360003812538-Install-the-Snyk-CLI
-* Registered account on Snyk App - http://app.snyk.io
-* Docker Hub Account - https://hub.docker.com/
-* Docker Desktop running locally - https://www.docker.com/products/docker-desktop
+* snyk CLI - https://docs.snyk.io/snyk-cli/install-the-snyk-cli ([Snyk CLI のインストールとアップデート](https://qiita.com/ToshiAizawa/items/c090cbd525e45cc5ae51))
+* Snyk アカウント - http://app.snyk.io
+* Docker Hub アカウント - https://hub.docker.com/
+* ローカル環境への Docker Desktop のインストールと実行 - https://www.docker.com/products/docker-desktop
 
-_NOTE: Please ensure you have meet the Prerequisites prior to starting this workshop_
+__注意: ワークショップ開始前に上記の事前準備が完了していることを確認してください__
 
 # Workshop Steps
 
