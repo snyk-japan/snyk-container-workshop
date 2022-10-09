@@ -167,27 +167,27 @@ __注: Snyk は必要な情報をファイルシステムより取得するた�
 
 ## Step 5 プロジェクトの追加 (Dockerfile のスキャン)
 
-Snyk detects vulnerable base images by scanning your Dockerfile when importing a Git repository. This allows you to examine security issues before building the image, so helps solve potential problems before they land in your registry or in production.
+Snyk は Git リポジトリのインポート時に、Dockerfile のスキャンを通じて脆弱性のあるベースイメージを検出することができます。これによりイメージのビルド前にセキュリティ上の問題をチェックすることができるため、脆弱性がレジストリや本番環境にたどり着く前にその問題を解決することが可能です。
 
-Now that Snyk is connected to your GitHub Account, import the Repo into Snyk as a Project as this contains a Dockerfile.
+Snyk は GitHub レポジトリと接続済みのため、リポジトリをインポートして Dockerfile をスキャンしてみましょう。
 
-* Navigate to Projects
-* Click "**Add Project**" then select "**GitHub**"
-* Click on the Repo "goof" that you forked earlier at Step 1.
+* Projects タブを選択する
+* "**Add Project**" ボタンを選択し、続いて "**GitHub**" を選択する
+* Step 1 でフォークしたリポジトリ "goof" を選択する
 
 ![alt tag](https://i.ibb.co/q9Rsxsh/snyk-starter-open-source-3.png)
 
-_Note: The import can take up to one minute, so you can view the import log while it's running as shown below_
+__注: インポートには 1 分程度を要します。次のように、インポート中にインポートログを見ることができます__
 
 ![alt tag](https://i.ibb.co/RQsX6jZ/snyk-starter-open-source-14.png)
 
-* Once imported you should see a reference for the Dockerfile as shown below. 
+* インポートが完了すると、次のように Dockerfile への参照が確認できます。
 
 ![alt tag](https://i.ibb.co/1rNMFhC/snyk-container-9.png)
 
-* Go ahead and click on the Dockerfile this is similar to what a scan of a container from a registry looks like BUT this tim we are scanning a Dockerfile itself versus the full container image.
+* Dockerfile を選択してスキャン結果を確認します。レジストリからのコンテナイメージのスキャン結果と中身は似ていますが、ここでは Dockerfile をスキャンしていることに注意してください。
 
-In a Dockerfile project, you can find the relevant metadata of the Dockerfile and the base image used. If the base image is an [Official Docker image](https://docs.docker.com/docker-hub/official_images/), the results include recommendations for upgrades to resolve some of the discovered vulnerabilities
+Dockerfile プロジェクトでは、Dockerfile のメタデータとそこで使われているベースイメージについての情報が表示されます。ベースイメージが [Docker 公式イメージ](https://docs.docker.com/docker-hub/official_images/)であれば、スキャン結果にはベースイメージの更新の推奨が含まれ、検出された脆弱性の一部を更新を通じて修正できます。
 
 ## Step 6 Pull Request によるベースイメージの更新
 
