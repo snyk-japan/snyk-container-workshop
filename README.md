@@ -1,19 +1,19 @@
-# Introduction to Snyk Container Workshop
+# Snyk Container ワークショップ
 
-Snyk Container helps you find and fix vulnerabilities in container images. With snyk container you can scale your security capabilities by enabling developers to quickly eliminate a multitude of vulnerabilities by upgrading to a more secure base image or rebuilding when the base image is outdated
+Snyk Container を使うとコンテナイメージ内の脆弱性を検出、修正できます。古くなってしまったベースイメージをセキュアなバージョンへ更新したり、再構築することを通じて、大量の脆弱性を開発者が一気に修正できるというのがこの製品の大きな特徴です。つまり、Snyk Container でセキュリティ対策をスケールできるのです。
 
-You may not always have access to the original source code that runs in your containers, but vulnerabilities in your code dependencies are still important. Snyk can detect and monitor open source dependencies for popular languages as part of the container scan
+コンテナ内で実行されるアプリケーションのソースコードにアクセスできるとは限りませんが、そこで使われている依存ライブラリに含まれる脆弱性は無視できません。Snyk はコンテナスキャン時に主要言語のオープンソース脆弱性を検出し、モニタリングを行います。
 
-In this hands-on workshop we will achieve the follow:
+このハンズオンワークショップでは以下のステップをカバーします。
 
-* [Step 1 Fork the Goof Application](#step-1-fork-the-goof-application)
-* [Step 2 Configure GitHub Integration](#step-2-configure-github-integration)
-* [Step 3 Configure Docker Hub Integration](#step-3-configure-docker-hub-integration) 
-* [Step 4 Test using the Add to Project Docker Hub Integration](#step-4-test-using-the-add-to-project-docker-hub-integration)
-* [Step 5 Find vulnerabilities in Goof’s Dockerfile](#step-5-find-vulnerabilities-in-goofs-dockerfile)
-* [Step 6 Fix the Dockerfile FROM tag using a Pull Request](#step-6-fix-the-dockerfile-from-tag-using-a-pull-request)
-* [Step 7 Container Test using the Snyk CLI](#step-7-container-test-using-the-snyk-cli)
-* [Step 8 Container Reporting Dashboard](#step-8-container-reporting-dashboard)
+* [Step 1 Goof アプリケーションのフォーク](#step-1-fork-the-goof-application)
+* [Step 2 GitHub　インテグレーションの設定](#step-2-configure-github-integration)
+* [Step 3 Docker Hub　インテグレーションの設定](#step-3-configure-docker-hub-integration) 
+* [Step 4 プロジェクトの追加 (コンテナイメージのスキャン)](#step-4-test-using-the-add-to-project-docker-hub-integration)
+* [Step 5 さらにプロジェクトの追加 (Dockerfile のスキャン)](#step-5-find-vulnerabilities-in-goofs-dockerfile)
+* [Step 6 Pull Request によるベースイメージの更新](#step-6-fix-the-dockerfile-from-tag-using-a-pull-request)
+* [Step 7 Snyk CLI を用いたコンテナイメージのスキャン](#step-7-container-test-using-the-snyk-cli)
+* [Step 8 レポート機能の参照](#step-8-container-reporting-dashboard)
 
 ## Prerequisites
 
