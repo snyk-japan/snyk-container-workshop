@@ -191,25 +191,25 @@ Dockerfile プロジェクトでは、Dockerfile のメタデータとそこで�
 
 ## Step 6 Pull Request によるベースイメージの更新
 
-Here we will go ahead and fix our Dockerfile using the "**Open a Fix PR**" button as follows:
+次のように "**Open a Fix PR**" ボタンを使って Dockerfile で修正を行ってみましょう。
 
-* Click on "**Open a Fix PR**" for the base image "**node:16.6.0-slim**" as per below
+* ベースイメージ "**node:16.6.0-slim**" の隣にある "**Open a Fix PR**" ボタンを選択します
 
 ![alt tag](https://i.ibb.co/5kY26FR/snyk-container-13.png)
 
-* Click on "**Open a Fix PR**" on the resulting page as shown below
+* 表示されたページ内の "**Open a Fix PR**" ボタンを選択します
 
 ![alt tag](https://i.ibb.co/C0tn01C/snyk-container-14.png)
 
-* A PR is then created as show below. "**Files Changed**" will show you what it's updating in the Dockerfile itself
+* Pull Request が作成されます。"**Files Changed**" を選択すると、Dockerfile の変更内容を表示することができます
 
 ![alt tag](https://i.ibb.co/py4GdJS/snyk-container-15.png)
 
-* Click on "**Merge Pull Request**" button as shown below
+* "**Merge Pull Request**" 選択して Pull Request をマージします
 
 ![alt tag](https://i.ibb.co/hCwDCFP/snyk-container-16.png)
 
-* Return to the projects dashboard and you will see a new scan has occurred automatically and now our Dockerfile shows much less issues than previously. Of course until we build a new container and add it to the registry the container itself will still have the old base image in place.
+* Snyk Web UI へ戻ると、自動的にスキャンが実行され、Dockerfile から検出される脆弱性の数は少なくなってことに気づくでしょう。当然のことながら、コンテナをビルドし直して、それをレジストリに push (送信) しない限り、レジストリ上のコンテナにはこれまでの古いベースイメージが含まれます。
 
 ![alt tag](https://i.ibb.co/pbqmR1v/snyk-container-17.png)
 
