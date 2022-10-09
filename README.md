@@ -66,7 +66,7 @@ Snyk が入力されたクレデンシャルを確認した後、ページはリ
 
 ![alt tag](https://i.ibb.co/pWkKGmh/snyk-container-2.png)
 
-* Snyk Container のコンテナレジストリ インテグレーションではコンテナイメージ内のアプリケーション脆弱性の検出が可能です。この機能を有効化するには次のドキュメントの指示に従ってください。
+* Snyk Container のコンテナレジストリ インテグレーションではコンテナイメージ内のアプリケーション脆弱性の検出が可能です。この機能を有効化するには次のドキュメントの指示に従ってください。(通常はデフォルトで有効化済み)
 
 [コンテナイメージ内のアプリケーション脆弱性を検出する (Detecting application vulnerabilities in container images)](https://docs.snyk.io/products/snyk-container/getting-around-the-snyk-container-ui/detecting-application-vulnerabilities-in-container-images)
 
@@ -105,37 +105,37 @@ $ docker tag pasapples/docker-goof:latest DOCKER_HUB_USERNAME/docker-goof:latest
 ```
 $ docker push DOCKER_HUB_USERNAME/docker-goof:latest
 The push refers to repository [docker.io/pasapples/docker-goof]
-1bc5d83ccce7: Layer already exists
-35bda1fbb3d0: Layer already exists
-5f70bf18a086: Layer already exists
-fbd39f37d7c2: Layer already exists
-938fc2ad056c: Layer already exists
-c24944d2eccc: Layer already exists
-02a318dedbea: Layer already exists
-7972420bc26e: Layer already exists
-17c76043bf23: Layer already exists
-496d6557f1e3: Layer already exists
-867786449541: Layer already exists
-92d17ee6d9da: Layer already exists
-e54368741774: Layer already exists
-5a6c4d956b5d: Layer already exists
-86ab2c6c5d58: Layer already exists
+b5a6403ec476: Mounted from pasapples/docker-goof
+d93ea17204e4: Mounted from pasapples/docker-goof
+5f70bf18a086: Mounted from pasapples/docker-goof
+728c90cb4e25: Mounted from pasapples/docker-goof
+938fc2ad056c: Mounted from pasapples/docker-goof
+c24944d2eccc: Mounted from pasapples/docker-goof
+02a318dedbea: Mounted from pasapples/docker-goof
+7972420bc26e: Mounted from pasapples/docker-goof
+17c76043bf23: Mounted from pasapples/docker-goof
+496d6557f1e3: Mounted from pasapples/docker-goof
+867786449541: Mounted from pasapples/docker-goof
+92d17ee6d9da: Mounted from pasapples/docker-goof
+e54368741774: Mounted from pasapples/docker-goof
+5a6c4d956b5d: Mounted from pasapples/docker-goof
+86ab2c6c5d58: Mounted from pasapples/docker-goof
 latest: digest: sha256:be2d6b0f5041315f632f44e3528ea513c452cc95ed4a40bc3d70f943ab293e5f size: 3466
 ```
 
-* Snyk Web UI へ戻り、"**Add your Docker Hub Images to Snyk**" ボタンを選択します。
+* Snyk Web UI へ戻り、"**Add your Docker Hub Images to Snyk**" ボタンを選択します。(または、Projects タブ -> Add Project ボタン -> Docker Hub を選択してください)
 
-* "**docker-goof**" で検索し、イメージを選択してから、"**Add Selected Repositories**"　ボタンを選択します。
+* "**DOCKER_HUB_USERNAME/docker-goof**" の、latest イメージを選択してから、"**Add selected images**"　ボタンを選択します。
 
-![alt tag](https://i.ibb.co/mq421V8/snyk-container-3.png)
+<img width="1321" alt="image" src="https://user-images.githubusercontent.com/95601557/194784447-5bc4780c-e430-45f2-97e9-7cd6511e1923.png">
 
-* この操作は完了までに数分を要します。待っている間、次のリンクを用いて Import の状況を確認することができます。
+* この操作は完了までに数分を要します。待っている間、Projects タブの View log のリンクから Import の状況を確認することができます。
 
 ![alt tag](https://i.ibb.co/PQy4pzq/snyk-container-4.png)
 
 * 完了すると、コンテナスキャンの結果が次のとおり表示されます。
 
-![alt tag](https://i.ibb.co/NTX9KV2/snyk-container-5.png)
+<img width="1291" alt="image" src="https://user-images.githubusercontent.com/95601557/194784599-268ef2ce-455a-48cc-b5dd-d81eaefcf136.png">
 
 Snyk Container が提供されているインテグレーションを使ってイメージをスキャンすると、まずイメージに含まれるソフトウェアを検出します。これらのソフトウェアには次のものが含まれます。
 
@@ -155,15 +155,14 @@ __注: Snyk は必要な情報をファイルシステムより取得するた�
 
 サポート対象のベースイメージについてはこの[リンク](https://snyk.io/docker-images/)でご確認ください。
 
-検出された脆弱性は [Priority Score](https://snyk.io/blog/snyk-priority-score/) でソートされ、脆弱性ごとに以下の情報が提供されます。
+検出された脆弱性はデフォルトでは [Priority Score](https://snyk.io/blog/snyk-priority-score/) でソートされ、脆弱性ごとに以下の情報が提供されます。
 
-1. 脆弱性を混入させたモジュール (OS、ベースイメージまたはユーザーレイヤーのいずれであるか) と、それが推移的依存パッケージの場合は直接的依存パッケージが明示される
-1. パスと修正方法、脆弱な関数
-1. 概要
+1. 脆弱性を混入させたモジュール (OS、ベースイメージまたはユーザーレイヤーのいずれであるか) 
+1. パスと修正方法
 1. エクスプロイトマチュリティ (攻撃可能性)
-1. CWE と CVE へのリンクと CVSS スコア
+1. CWE、CVE、CVSS へのリンク
+1. Snyk 脆弱性 DB へのリンク
 1. ソーシャルネットワークにおけるトレンド
-1. その他
 
 ## Step 5 プロジェクトの追加 (Dockerfile のスキャン)
 
@@ -173,11 +172,12 @@ Snyk は GitHub レポジトリと接続済みのため、リポジトリをイ�
 
 * Projects タブを選択する
 * "**Add Project**" ボタンを選択し、続いて "**GitHub**" を選択する
-* Step 1 でフォークしたリポジトリ "goof" を選択する
+* Step 1 でフォークしたリポジトリ "nodejs-goof" を選択する
+* "**Add selected repositories**" ボタンを選択する
 
 ![alt tag](https://i.ibb.co/q9Rsxsh/snyk-starter-open-source-3.png)
 
-__注: インポートには 1 分程度を要します。次のように、インポート中にインポートログを見ることができます__
+__注: インポートには 1 分程度を要します。View log のリンクから Import の状況を確認することができます。__
 
 ![alt tag](https://i.ibb.co/RQsX6jZ/snyk-starter-open-source-14.png)
 
@@ -193,9 +193,9 @@ Dockerfile プロジェクトでは、Dockerfile のメタデータとそこで�
 
 次のように "**Open a Fix PR**" ボタンを使って Dockerfile で修正を行ってみましょう。
 
-* ベースイメージ "**node:16.6.0-slim**" の隣にある "**Open a Fix PR**" ボタンを選択します
+* ベースイメージ "**node:16.17-bullseye-slim**" の隣にある "**Open a fix PR**" ボタンを選択します
 
-![alt tag](https://i.ibb.co/5kY26FR/snyk-container-13.png)
+<img width="1280" alt="image" src="https://user-images.githubusercontent.com/95601557/194785091-e09a757c-14f0-4ba2-9b63-3f3e7d7d069c.png">
 
 * 表示されたページ内の "**Open a Fix PR**" ボタンを選択します
 
