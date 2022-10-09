@@ -2,7 +2,7 @@
 
 Snyk Container を使うとコンテナイメージ内の脆弱性を検出、修正できます。古くなってしまったベースイメージをセキュアなバージョンへ更新したり、再構築することを通じて、大量の脆弱性を開発者が一気に修正できるというのがこの製品の大きな特徴です。つまり、Snyk Container でセキュリティ対策をスケールできるのです。
 
-コンテナ内で実行されるアプリケーションのソースコードにアクセスできるとは限りませんが、そこで使われている依存ライブラリに含まれる脆弱性は無視できません。Snyk はコンテナスキャン時に主要言語のオープンソース脆弱性を検出し、モニタリングを行います。
+コンテナ内で実行されるアプリケーションのソースコードにアクセスできるとは限りませんが、そこで使われている依存ライブラリに含まれる脆弱性は無視できません。Snyk はコンテナスキャン時にこのようなアプリケーション脆弱性を検出し、モニタリングを行います。
 
 このハンズオンワークショップでは以下のステップをカバーします。
 
@@ -60,7 +60,7 @@ Docker Hub と Snyk の間でインテグレーションを有効化すること
 
 Snyk が入力されたクレデンシャルを確認した後、ページはリロードされ、Docker Hub のインテグレーションに関する情報と Add your Docker Hub images to Snyk ボタンが表示されます。Docker Hub へ接続が行われたことを示すメッセージも緑色のボックス内に表示されます。また、Docker Hub への接続が失敗した場合は、失敗を伝えるメッセージが表示されます。
 
-注: Access Token フィールドには、Docker Hub のパスワードもしくは Docker Hub で作成した [access token](https://docs.docker.com/docker-hub/access-tokens/) を入力することができます。Docker Hub アカウントに対して 2FA が有効になっている場合は、access token のみが利用できます。
+注: Access Token フィールドには、Docker Hub のパスワードもしくは [access token](https://docs.docker.com/docker-hub/access-tokens/) を入力することができます。Docker Hub アカウントに対して 2FA が有効になっている場合は、access token のみが利用できます。
 
 ![alt tag](https://i.ibb.co/hYyb7RD/snyk-container-1.png)
 
@@ -76,14 +76,14 @@ Docker Hub レジストリにはすでにイメージが存在するかもしれ
 
 * 次のように Docker Hub にログインします。Step 3 で使ったのと同じクレデンシャルを用いてください。
 
-```bash
+```
 $ docker login -u DOCKER_HUB_USERNAME -p YOUR_ACCESS_TOKEN_OR_PASSWORD
 Login Succeeded
 ```
 
 * 次のようにイメージを pull (取得) します。
 
-```bash
+```
 $ docker pull pasapples/docker-goof
 Using default tag: latest
 latest: Pulling from pasapples/docker-goof
@@ -96,13 +96,13 @@ docker.io/pasapples/docker-goof:latest
 
 注: 以下では、DOCKER_HUB_USERNAME はあなたの Docker Hub ユーザー名に置き換えてください。
 
-```bash
+```
 $ docker tag pasapples/docker-goof:latest DOCKER_HUB_USERNAME/docker-goof:latest
 ```
 
 * 次のコマンドを実行してイメージを Docker Hub アカウントに push (送信) します。
 
-```bash
+```
 $ docker push DOCKER_HUB_USERNAME/docker-goof:latest
 The push refers to repository [docker.io/pasapples/docker-goof]
 1bc5d83ccce7: Layer already exists
@@ -224,7 +224,7 @@ Snyk CLI はコンテナレジストリ内の、また、ローカルの Docker 
 
 __注: 次のバージョン、またはそれ以降のバージョンがインストールされていることを確認してください__
 
-```bash
+```
 $ snyk --version
 1.996.0
 ```
@@ -247,7 +247,7 @@ Your account has been authenticated. Snyk is now ready to be used.
 __注: 上記で説明したブラウザから Snyk Web UI による認証でうまくいかない場合は、次に説明する API token による認証をお試しください。
 [API token で CLI を認証する (Authenticate the CLI using your API token)](https://docs.snyk.io/snyk-cli/authenticate-the-cli-with-your-account)__
 
-__Note: CLI を用いたコンテナイメージのスキャンは以下で説明する流れで実行されるため、初回スキャンには数分を要します。[CLI によるコンテナイメージのスキャン (Test images with the Snyk Container CLI)](https://docs.snyk.io/products/snyk-container/snyk-cli-for-container-security#testing-an-image) より引用__
+__注: CLI を用いたコンテナイメージのスキャンは以下で説明する流れで実行されるため、初回スキャンには数分を要します。__([CLI によるコンテナイメージのスキャン (Test images with the Snyk Container CLI)](https://docs.snyk.io/products/snyk-container/snyk-cli-for-container-security#testing-an-image) より引用)
 
 1. イメージがローカルの Docker daemon 内に存在しない場合、ダウンロードします
 1. イメージ内に組み込まれたソフトウェアを検出します
@@ -256,7 +256,7 @@ __Note: CLI を用いたコンテナイメージのスキャンは以下で説�
 
 * あらかじめ "docker-goof" をビルドしているので、このイメージをスキャンします。"**DOCKER_HUB_USERNAME**" はあなたの Docker Hub ユーザー名に置き換えてください。
 
-```bash
+```
 $ snyk container test DOCKER_HUB_USERNAME/docker-goof:latest
 
 ...
@@ -286,7 +286,7 @@ node:16.6.0-stretch-slim  78               6 critical, 11 high, 8 medium, 53 low
 
 * 次のコンテナスキャンは Spring Boot のアプリケーションです 
 
-```bash
+```
 $ snyk container test pasapples/springbootemployee:cnb
 
 ....
@@ -317,7 +317,7 @@ ubuntu:20.04  15               0 critical, 0 high, 0 medium, 15 low
 
 * ディストリビューションレスのバージョンもあるので、こちらもスキャンしてみます
 
-```bash
+```
 $ snyk container test pasapples/spring-crud-thymeleaf-demo:distroless
 
 ...
@@ -397,9 +397,9 @@ Possible exit codes and their meaning:
 3: failure, no supported projects detected
 ```
 
-* 最後になりますが、次のように "**snyk container monitor**" コマンドを用いてコンテナイメージの脆弱性を継続的に監視することができます。では今回は別のコンテナイメージに対してこのコマンドを実行してみましょう
+* 最後になりますが、次のとおり "**snyk container monitor**" コマンドを用いてコンテナイメージの脆弱性を継続的に監視することができます。では今回は別のコンテナイメージに対してこのコマンドを実行してみましょう
 
-```bash
+```
 $ snyk container monitor pasapples/spring-crud-thymeleaf-demo:latest --project-name=spring-crud-thymeleaf-demo-container
 
 Monitoring pasapples/spring-crud-thymeleaf-demo:latest (spring-crud-thymeleaf-demo-container)...
