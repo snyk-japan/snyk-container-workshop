@@ -215,21 +215,21 @@ Dockerfile プロジェクトでは、Dockerfile のメタデータとそこで�
 
 ## Step 7 Snyk CLI を用いたコンテナイメージのスキャン
 
-The Snyk CLI can run a container test on containers sitting in a registry and even your local docker deamon if you like. All the Snyk CLI needs is access to the registry itself which is for public Docker Hub images only requires a "docker login" to achieve that. The following examples show how to use the Snyk CLI to issue a container test.
+Snyk CLI はコンテナレジストリ内の、また、ローカルの Docker daemon 内にあるコンテナイメージをスキャンすることができます。その際に Snyk CLI が必要とするのはレジストリへのアクセスで、そのためには "docker login" の実行が必要となります。以下の実行例では Snyk CLI からコンテナスキャンを行います。
 
-* Before we get started please make sure you have setup the Snyk CLI. There are various install options as per the links below. Using the prebuilt binaries means you don't have to install NPM to install the Snyk CLI.
+* まず Snyk CLI のインストールと設定を完了しましょう。以下のリンクにて説明されているように、複数のインストール方法があります。ビルド済みバイナリを利用する場合は、NPM のインストールは必要ありません。
 
-1. Install Page - https://support.snyk.io/hc/en-us/articles/360003812538-Install-the-Snyk-CLI
-1. Prebuilt Binaries - https://github.com/snyk/snyk/releases
+1. インストールページ - https://docs.snyk.io/snyk-cli/install-the-snyk-cli ([Snyk CLI のインストールとアップデート](https://qiita.com/ToshiAizawa/items/c090cbd525e45cc5ae51))
+1. ビルド済みバイナリ - https://github.com/snyk/snyk/releases
 
-_Note: Make sure you have the following version installed or later_
+__注: 次のバージョン、またはそれ以降のバージョンがインストールされていることを確認してください__
 
 ```bash
 $ snyk --version
-1.675.0
+1.996.0
 ```
 
-* Authorize the snyk CLI with your account as follows
+* 次のとおり、Snyk CLI をご自身のアカウントで認証します (`snyk auth` コマンド実行後、認証用ページが表示されます。"**Authenticate**" ボタンをクリックしてください。Snyk に未ログインの場合はログインした後に "**Authenticate**" ボタンが表示されます)
 
 ```bash
 $ snyk auth
@@ -239,7 +239,7 @@ and once the auth is complete, return to this prompt and you'll
 be ready to start using snyk.
 
 If you can't wait use this url:
-https://snyk.io/login?token=ff75a099-4a9f-4b3d-b75c-bf9847672e9c&utm_medium=cli&utm_source=cli&utm_campaign=cli&os=darwin&docker=false
+https://snyk.io/login?token=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX&utm_medium=cli&utm_source=cli&utm_campaign=cli&os=darwin&docker=false
 
 Your account has been authenticated. Snyk is now ready to be used.
 ```
@@ -419,3 +419,4 @@ Thanks for attending and completing this workshop
 
 <hr />
 Pas Apicella [pas at snyk.io] is an Solution Engineer at Snyk APJ
+Toshi Aizawa [toshi.aizawa at snyk.io] is an Solutions Engineer at Snyk APJ
