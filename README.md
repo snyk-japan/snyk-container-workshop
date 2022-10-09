@@ -53,22 +53,22 @@ Snyk を GitHub に接続してリポジトリをインポートできるよう�
 
 ## Step 3 Docker Hub インテグレーションの設定
 
-Enable integration between Docker Hub and Snyk, to start managing your container vulnerabilities. To do that we must first connect to Docker Hub 
+Docker Hub と Snyk の間でインテグレーションを有効化することにより、コンテナ脆弱性の管理を開始できます。次のとおり Docker Hub への接続を行います。
 
-* Navigating to Integrations -> Container Registries -> Docker Hub 
-* Enter your Docker Hub username and Access Token and then click Save
+* Integrations タブ -> Container Registries -> Docker Hub を選択する
+* Docker Hub の Username と Access Token を入力した後、Save を選択する
 
-Snyk tests the connection values and the page reloads, now displaying Docker Hub integration information and the Add your Docker Hub images to Snyk button. A confirmation message that the details were saved also appears in green at the top of the screen. In addition, if the connection to Docker Hub failed, a notification appears
+Snyk が入力されたクレデンシャルを確認した後、ページはリロードされ、Docker Hub のインテグレーションに関する情報と Add your Docker Hub images to Snyk ボタンが表示されます。Docker Hub へ接続が行われたことを示すメッセージも緑色のボックス内に表示されます。また、Docker Hub への接続が失敗した場合は、失敗を伝えるメッセージが表示されます。
 
-Note: As the access token, you can either use your DockerHub password or an [access token](https://docs.docker.com/docker-hub/access-tokens/) created in DockerHub. In case 2FA is activated on your account, access token only is applicable
+注: Access Token フィールドには、Docker Hub のパスワードもしくは Docker Hub で作成した [access token](https://docs.docker.com/docker-hub/access-tokens/) を入力することができます。Docker Hub アカウントに対して 2FA が有効になっている場合は、access token のみが利用できます。
 
 ![alt tag](https://i.ibb.co/hYyb7RD/snyk-container-1.png)
 
 ![alt tag](https://i.ibb.co/pWkKGmh/snyk-container-2.png)
 
-* Snyk Container registry integration supports detecting application vulnerabilities in container images. To enable that follow the instructions here.
+* Snyk Container のコンテナレジストリ インテグレーションではコンテナイメージ内のアプリケーション脆弱性の検出が可能です。この機能を有効化するには次のドキュメントの指示に従ってください。
 
-[Detecting application vulnerabilities in container images](https://support.snyk.io/hc/en-us/articles/360008593457-Detecting-application-vulnerabilities-in-container-images)
+[コンテナイメージ内のアプリケーション脆弱性を検出する (Detecting application vulnerabilities in container images)](https://docs.snyk.io/products/snyk-container/getting-around-the-snyk-container-ui/detecting-application-vulnerabilities-in-container-images)
 
 ## Step 4 プロジェクトの追加 (コンテナイメージのスキャン)
 
