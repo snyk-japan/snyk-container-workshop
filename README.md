@@ -231,7 +231,7 @@ $ snyk --version
 
 * 次のとおり、Snyk CLI をご自身のアカウントで認証します (`snyk auth` コマンド実行後、認証用ページが表示されます。"**Authenticate**" ボタンをクリックしてください。Snyk に未ログインの場合はログインした後に "**Authenticate**" ボタンが表示されます)
 
-```bash
+```
 $ snyk auth
 
 Now redirecting you to our auth page, go ahead and log in,
@@ -244,20 +244,20 @@ https://snyk.io/login?token=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX&utm_medium=cli&
 Your account has been authenticated. Snyk is now ready to be used.
 ```
 
-_Note: If you are having trouble authenticating via a browser with the Snyk App you can setup authentication using the API token as shown below
-[Authenticate using your API token](https://support.snyk.io/hc/en-us/articles/360004008258-Authenticate-the-CLI-with-your-account#UUID-4f46843c-174d-f448-cadf-893cfd7dd858_section-idm4557419555668831541902780562)_
+__注: 上記で説明したブラウザから Snyk Web UI による認証でうまくいかない場合は、次に説明する API token による認証をお試しください。
+[API token で CLI を認証する (Authenticate the CLI using your API token)](https://docs.snyk.io/snyk-cli/authenticate-the-cli-with-your-account)__
 
-_Note: Testing container images through the CLI performs the following steps, so it can take a few minutes on the first scan [Test images with the Snyk Container CLI](https://support.snyk.io/hc/en-us/articles/360003946917-Test-images-with-the-Snyk-Container-CLI)_
+__Note: CLI を用いたコンテナイメージのスキャンは以下で説明する流れで実行されるため、初回スキャンには数分を要します。[CLI によるコンテナイメージのスキャン (Test images with the Snyk Container CLI)](https://docs.snyk.io/products/snyk-container/snyk-cli-for-container-security#testing-an-image) より引用__
 
-1. Downloads the image if it’s not already available locally in your Docker daemon
-2. Determines the software installed in the image
-3. Sends that bill of materials to the Snyk Service
-4. Returns a list of the vulnerabilities in your image
+1. イメージがローカルの Docker daemon 内に存在しない場合、ダウンロードします
+1. イメージ内に組み込まれたソフトウェアを検出します
+1. 検出されたソフトウェアのリストを Snyk に送信します
+1. Snyk はイメージ内の脆弱性のリストを返します
 
-* You have already built "docker-goof" so go ahead and test that as shown below, please use your dockerhub account username rather than "**pasapples**"
+* あらかじめ "docker-goof" をビルドしているので、このイメージをスキャンします。"**DOCKER_HUB_USERNAME**" はあなたの Docker Hub ユーザー名に置き換えてください。
 
 ```bash
-$ snyk container test pasapples/docker-goof:latest
+$ snyk container test DOCKER_HUB_USERNAME/docker-goof:latest
 
 ...
 
@@ -284,14 +284,14 @@ node:16.6.0-buster        343              3 critical, 30 high, 49 medium, 261 l
 node:16.6.0-stretch-slim  78               6 critical, 11 high, 8 medium, 53 low
 ```
 
-* The following container test is for a Spring Boot application 
+* 次のコンテナスキャンは Spring Boot のアプリケーションです 
 
 ```bash
 $ snyk container test pasapples/springbootemployee:cnb
 
 ....
 
-Organization:      pas.apicella-41p
+Organization:      YOUR_SNYK_ORG
 Package manager:   deb
 Project name:      docker-image|pasapples/springbootemployee
 Docker image:      pasapples/springbootemployee:cnb
@@ -315,14 +315,14 @@ Base Image    Vulnerabilities  Severity
 ubuntu:20.04  15               0 critical, 0 high, 0 medium, 15 low
 ```
 
-* There is also a Distroless version if you would like to try with that
+* ディストリビューションレスのバージョンもあるので、こちらもスキャンしてみます
 
 ```bash
 $ snyk container test pasapples/spring-crud-thymeleaf-demo:distroless
 
 ...
 
-Organization:      pas.apicella-41p
+Organization:      YOUR_SNYK_ORG
 Package manager:   deb
 Project name:      docker-image|pasapples/spring-crud-thymeleaf-demo
 Docker image:      pasapples/spring-crud-thymeleaf-demo:distroless
@@ -332,7 +332,7 @@ Licenses:          enabled
 Tested 20 dependencies for known issues, found 38 issues.
 ```
 
-* The CLI also allows us to report vulnerabilities of provided level or higher. Now let's go ahead and set that to HIGH using "**--severity-threshold=high**". Only issues tagged as HIGH or CRITICAL will appear on this test run.
+* CLI は特定の深刻度 (Severity) 以上の脆弱性だけを検出させることも可能です。深刻度のしきい値フラグ "**--severity-threshold=high**" を指定して深刻度 HIGH 以上の脆弱性を調べてみます。深刻度が HIGH または CRITICAL の脆弱性だけが検出されます。
 
 ```shell
 $ snyk container test --severity-threshold=high pasapples/springbootemployee:cnb
@@ -361,7 +361,7 @@ Testing pasapples/springbootemployee:cnb...
 
 
 
-Organization:      pas.apicella-41p
+Organization:      YOUR_SNYK_ORG
 Package manager:   deb
 Project name:      docker-image|pasapples/springbootemployee
 Docker image:      pasapples/springbootemployee:cnb
@@ -386,7 +386,7 @@ ubuntu:20.04  15               0 critical, 0 high, 0 medium, 15 low
 
 ```
 
-The severity threshold allows you to break a build in the event of this threshold being meet using the exit code of the command. 
+深刻度のしきい値を用いると、CI/CD パイプライン内のスキャンにおいて特定レベル以上の深刻度の脆弱性が見つかった場合、ビルドをブロックすることができます。Snyk CLI コマンドの終了コードは以下の通りです。 
 
 ```
 Possible exit codes and their meaning:
@@ -397,23 +397,23 @@ Possible exit codes and their meaning:
 3: failure, no supported projects detected
 ```
 
-* Finally, can monitor container images using the "**snyk container monitor**" command as shown below, please perform this step now using a different container image this time
+* 最後になりますが、次のように "**snyk container monitor**" コマンドを用いてコンテナイメージの脆弱性を継続的に監視することができます。では今回は別のコンテナイメージに対してこのコマンドを実行してみましょう
 
 ```bash
 $ snyk container monitor pasapples/spring-crud-thymeleaf-demo:latest --project-name=spring-crud-thymeleaf-demo-container
 
 Monitoring pasapples/spring-crud-thymeleaf-demo:latest (spring-crud-thymeleaf-demo-container)...
 
-Explore this snapshot at https://app.snyk.io/org/workshops-admin-org/project/1cce2457-a6ac-4f09-8465-9ca596a966fa/history/a253804a-bdb2-4ed1-a7d6-54a321e7f725
+Explore this snapshot at https://app.snyk.io/org/YOUR_SNYK_ORG/project/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/history/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 
 Notifications about newly disclosed issues related to these dependencies will be emailed to you.
 ```
 
 ![alt tag](https://i.ibb.co/vY63PXR/snyk-container-12.png)
 
-* Return to the Snyk App and this time you will see the container image 
+* Snyk Web UI の Project タブを確認すると、上のコンテナイメージのスキャン結果を確認することができます 
 
-Thanks for attending and completing this workshop
+以上でワークショップ完了です。お疲れさまでした！ 本日はご参加ありがとうございました。
 
 ![alt tag](https://i.ibb.co/7tnp1B6/snyk-logo.png)
 
