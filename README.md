@@ -1,88 +1,89 @@
-# Introduction to Snyk Container Workshop
+# Snyk Container ワークショップ
 
-Snyk Container helps you find and fix vulnerabilities in container images. With snyk container you can scale your security capabilities by enabling developers to quickly eliminate a multitude of vulnerabilities by upgrading to a more secure base image or rebuilding when the base image is outdated
+Snyk Container を使うとコンテナイメージ内の脆弱性を検出、修正できます。古くなってしまったベースイメージをセキュアなバージョンへ更新したり、再構築することを通じて、大量の脆弱性を開発者が一気に修正できるというのがこの製品の大きな特徴です。つまり、Snyk Container でセキュリティ対策をスケールできるのです。
 
-You may not always have access to the original source code that runs in your containers, but vulnerabilities in your code dependencies are still important. Snyk can detect and monitor open source dependencies for popular languages as part of the container scan
+コンテナ内で実行されるアプリケーションのソースコードにアクセスできるとは限りませんが、そこで使われている依存ライブラリに含まれる脆弱性は無視できません。Snyk はコンテナスキャン時にこのようなアプリケーション脆弱性を検出し、モニタリングを行います。
 
-In this hands-on workshop we will achieve the follow:
+このハンズオンワークショップでは以下のステップをカバーします。
 
-* [Step 1 Fork the Goof Application](#step-1-fork-the-goof-application)
-* [Step 2 Configure GitHub Integration](#step-2-configure-github-integration)
-* [Step 3 Configure Docker Hub Integration](#step-3-configure-docker-hub-integration) 
-* [Step 4 Test using the Add to Project Docker Hub Integration](#step-4-test-using-the-add-to-project-docker-hub-integration)
-* [Step 5 Find vulnerabilities in Goof’s Dockerfile](#step-5-find-vulnerabilities-in-goofs-dockerfile)
-* [Step 6 Fix the Dockerfile FROM tag using a Pull Request](#step-6-fix-the-dockerfile-from-tag-using-a-pull-request)
-* [Step 7 Container Test using the Snyk CLI](#step-7-container-test-using-the-snyk-cli)
-* [Step 8 Container Reporting Dashboard](#step-8-container-reporting-dashboard)
+* [Step 1 Nodejs-Goof アプリケーションのフォーク](#step-1-nodejs-goof-アプリケーションのフォーク)
+* [Step 2 GitHub インテグレーションの設定](#step-2-github-インテグレーションの設定)
+* [Step 3 Docker Hub インテグレーションの設定](#step-3-docker-hub-インテグレーションの設定) 
+* [Step 4 プロジェクトの追加 (コンテナイメージのスキャン)](#step-4-プロジェクトの追加-コンテナイメージのスキャン)
+* [Step 5 プロジェクトの追加 (Dockerfile のスキャン)](#step-5-プロジェクトの追加-dockerfile-のスキャン)
+* [Step 6 Pull Request によるベースイメージの更新](#step-6-pull-request-によるベースイメージの更新)
+* [Step 7 Snyk CLI を用いたコンテナイメージのスキャン](#step-7-snyk-cli-を用いたコンテナイメージのスキャン)
 
-## Prerequisites
+## 事前準備 (以下をご用意ください)
 
-* public GitHub account - http://github.com
+* GitHub アカウント (パブリックであること) - http://github.com
 * git CLI - https://git-scm.com/downloads
-* snyk CLI - https://support.snyk.io/hc/en-us/articles/360003812538-Install-the-Snyk-CLI
-* Registered account on Snyk App - http://app.snyk.io
-* Docker Hub Account - https://hub.docker.com/
-* Docker Desktop running locally - https://www.docker.com/products/docker-desktop
+* snyk CLI - https://docs.snyk.io/snyk-cli/install-the-snyk-cli ([Snyk CLI のインストールとアップデート](https://qiita.com/ToshiAizawa/items/c090cbd525e45cc5ae51))
+* Snyk アカウント - http://app.snyk.io
+* Docker Hub アカウント - https://hub.docker.com/
+* ローカル環境への Docker Desktop のインストールと実行 - https://www.docker.com/products/docker-desktop
 
-_NOTE: Please ensure you have meet the Prerequisites prior to starting this workshop_
+__注意: ワークショップ開始前に上記の事前準備が完了していることを確認してください__
 
 # Workshop Steps
 
-_Note: It is assumed your using a mac for these steps but it should also work on windows or linux with some modifications to the scripts potentially_
+__注: 以下のステップでは主に Mac の利用を想定していますが、Windows または Linux 上でもスクリプトを一部変更することで対応できます。__
 
-## Step 1 Fork the Goof Application
+## Step 1 Nodejs-Goof アプリケーションのフォーク
 
-Navigate to the following GitHub repo - https://github.com/snyk/goof
+次の GitHub リポジトリにアクセスしてください - https://github.com/snyk-labs/nodejs-goof
 
-* Click on the "**Fork**" button
-* Ensure you are forking this repo to your public GitHub account
-* Click done
+* "**Fork**" ボタンを選択します
+* フォーク先がご自身のパブリックな GitHub アカウントであることを確かめます
+* "**Create fork**" ボタンを選択します
 
-![alt tag](https://i.ibb.co/Gdf7N2W/snyk-starter-open-source-2.png)
+<img width="1327" alt="image" src="https://user-images.githubusercontent.com/95601557/194745394-c2d4543c-f0c5-48b1-9ab4-18c8e2e4cea7.png">
 
-## Step 2 Configure GitHub Integration
+## Step 2 GitHub インテグレーションの設定
 
-First we need to connect Snyk to GitHub so we can import our Repository. Do so by:
+注: GitHub インテグレーションを設定済みの場合、このステップは省略できます。次のステップへ進んでください。
 
-* Login to http://app.snyk.io Sign up if you haven't already.
-* Navigating to Integrations -> Source Control -> GitHub
-* Fill in your Account Credentials to Connect your GitHub Account.
+Snyk を GitHub に接続してリポジトリをインポートできるようにします。以下のステップを実行してください。
+
+* http://app.snyk.io へログインする (サインアップをしていない場合はここでサインアップ)
+* Integrations タブ -> Source Control -> GitHub を選択する
+* クレデンシャルを設定して GitHub アカウントへ接続する
 
 ![alt tag](https://i.ibb.co/bPqqybM/snyk-starter-open-source-1.png)
 
-## Step 3 Configure Docker Hub Integration
+## Step 3 Docker Hub インテグレーションの設定
 
-Enable integration between Docker Hub and Snyk, to start managing your container vulnerabilities. To do that we must first connect to Docker Hub 
+Docker Hub と Snyk の間でインテグレーションを有効化することにより、コンテナ脆弱性の管理を開始できます。次のとおり Docker Hub への接続を行います。
 
-* Navigating to Integrations -> Container Registries -> Docker Hub 
-* Enter your Docker Hub username and Access Token and then click Save
+* Integrations タブ -> Container Registries -> Docker Hub を選択する
+* Docker Hub の Username と Access Token を入力した後、Save を選択する
 
-Snyk tests the connection values and the page reloads, now displaying Docker Hub integration information and the Add your Docker Hub images to Snyk button. A confirmation message that the details were saved also appears in green at the top of the screen. In addition, if the connection to Docker Hub failed, a notification appears
+Snyk が入力されたクレデンシャルを確認した後、ページはリロードされ、Docker Hub のインテグレーションに関する情報と Add your Docker Hub images to Snyk ボタンが表示されます。Docker Hub へ接続が行われたことを示すメッセージも緑色のボックス内に表示されます。また、Docker Hub への接続が失敗した場合は、失敗を伝えるメッセージが表示されます。
 
-Note: As the access token, you can either use your DockerHub password or an [access token](https://docs.docker.com/docker-hub/access-tokens/) created in DockerHub. In case 2FA is activated on your account, access token only is applicable
+注: Access Token フィールドには、Docker Hub のパスワードもしくは [access token](https://docs.docker.com/docker-hub/access-tokens/) を入力することができます。Docker Hub アカウントに対して 2FA が有効になっている場合は、access token のみが利用できます。
 
 ![alt tag](https://i.ibb.co/hYyb7RD/snyk-container-1.png)
 
 ![alt tag](https://i.ibb.co/pWkKGmh/snyk-container-2.png)
 
-* Snyk Container registry integration supports detecting application vulnerabilities in container images. To enable that follow the instructions here.
+* Snyk Container のコンテナレジストリ インテグレーションではコンテナイメージ内のアプリケーション脆弱性の検出が可能です。この機能を有効化するには次のドキュメントの指示に従ってください。(通常はデフォルトで有効化済み)
 
-[Detecting application vulnerabilities in container images](https://support.snyk.io/hc/en-us/articles/360008593457-Detecting-application-vulnerabilities-in-container-images)
+[コンテナイメージ内のアプリケーション脆弱性を検出する (Detecting application vulnerabilities in container images)](https://docs.snyk.io/products/snyk-container/getting-around-the-snyk-container-ui/detecting-application-vulnerabilities-in-container-images)
 
-## Step 4 Test using the Add to Project Docker Hub Integration
+## Step 4 プロジェクトの追加 (コンテナイメージのスキャン)
 
-You may already have images in your Dockerhub Registries but lets go and add a new one to your Docker Hub account. 
+Docker Hub レジストリにはすでにイメージが存在するかもしれませんが、あなたの Docker Hub アカウントに新しいイメージを追加してみましょう。
 
-* Login to Docker Hub as shown below. These will be the same credentials you used in Step 3 above.
+* 次のように Docker Hub にログインします。Step 3 で使ったのと同じクレデンシャルを用いてください。
 
-```bash
+```
 $ docker login -u DOCKER_HUB_USERNAME -p YOUR_ACCESS_TOKEN_OR_PASSWORD
 Login Succeeded
 ```
 
-* Pull down the following image as shown below. 
+* 次のようにイメージを pull (取得) します。
 
-```bash
+```
 $ docker pull pasapples/docker-goof
 Using default tag: latest
 latest: Pulling from pasapples/docker-goof
@@ -91,142 +92,146 @@ Status: Downloaded newer image for pasapples/docker-goof:latest
 docker.io/pasapples/docker-goof:latest
 ```
 
-* Run the following commands to TAG and PUSH the image to your Docker Hub account. 
-  
-Note: Replace DOCKER_HUB_USERNAME with your Docker Hub username. 
+* 次のコマンドを実行してイメージへ tag (タグ付け) します。
 
-```bash
+注: 以下では、DOCKER_HUB_USERNAME はあなたの Docker Hub ユーザー名に置き換えてください。
+
+```
 $ docker tag pasapples/docker-goof:latest DOCKER_HUB_USERNAME/docker-goof:latest
+```
 
-$ $ docker push DOCKER_HUB_USERNAME/docker-goof:latest
+* 次のコマンドを実行してイメージを Docker Hub アカウントに push (送信) します。
+
+```
+$ docker push DOCKER_HUB_USERNAME/docker-goof:latest
 The push refers to repository [docker.io/pasapples/docker-goof]
-1bc5d83ccce7: Layer already exists
-35bda1fbb3d0: Layer already exists
-5f70bf18a086: Layer already exists
-fbd39f37d7c2: Layer already exists
-938fc2ad056c: Layer already exists
-c24944d2eccc: Layer already exists
-02a318dedbea: Layer already exists
-7972420bc26e: Layer already exists
-17c76043bf23: Layer already exists
-496d6557f1e3: Layer already exists
-867786449541: Layer already exists
-92d17ee6d9da: Layer already exists
-e54368741774: Layer already exists
-5a6c4d956b5d: Layer already exists
-86ab2c6c5d58: Layer already exists
+b5a6403ec476: Mounted from pasapples/docker-goof
+d93ea17204e4: Mounted from pasapples/docker-goof
+5f70bf18a086: Mounted from pasapples/docker-goof
+728c90cb4e25: Mounted from pasapples/docker-goof
+938fc2ad056c: Mounted from pasapples/docker-goof
+c24944d2eccc: Mounted from pasapples/docker-goof
+02a318dedbea: Mounted from pasapples/docker-goof
+7972420bc26e: Mounted from pasapples/docker-goof
+17c76043bf23: Mounted from pasapples/docker-goof
+496d6557f1e3: Mounted from pasapples/docker-goof
+867786449541: Mounted from pasapples/docker-goof
+92d17ee6d9da: Mounted from pasapples/docker-goof
+e54368741774: Mounted from pasapples/docker-goof
+5a6c4d956b5d: Mounted from pasapples/docker-goof
+86ab2c6c5d58: Mounted from pasapples/docker-goof
 latest: digest: sha256:be2d6b0f5041315f632f44e3528ea513c452cc95ed4a40bc3d70f943ab293e5f size: 3466
 ```
 
-* Return to the Snyk Dashboard and click on "**Add your Docker Hub Images to Snyk**"
+* Snyk Web UI へ戻り、"**Add your Docker Hub Images to Snyk**" ボタンを選択します。(または、Projects タブ -> Add Project ボタン -> Docker Hub を選択してください)
 
-* Search for "**docker-goof**" and then select it and click "**Add Selected Repositories**"
+* "**DOCKER_HUB_USERNAME/docker-goof**" の、latest イメージを選択してから、"**Add selected images**"　ボタンを選択します。
 
-![alt tag](https://i.ibb.co/mq421V8/snyk-container-3.png)
+<img width="1321" alt="image" src="https://user-images.githubusercontent.com/95601557/194784447-5bc4780c-e430-45f2-97e9-7cd6511e1923.png">
 
-* This may take a few minutes, so you can view the Import using the link provided as follows
+* この操作は完了までに数分を要します。待っている間、Projects タブの View log のリンクから Import の状況を確認することができます。
 
 ![alt tag](https://i.ibb.co/PQy4pzq/snyk-container-4.png)
 
-* Once complete your container scan should appear as follows
+* 完了すると、コンテナスキャンの結果が次のとおり表示されます。
 
-![alt tag](https://i.ibb.co/NTX9KV2/snyk-container-5.png)
+<img width="1291" alt="image" src="https://user-images.githubusercontent.com/95601557/194784599-268ef2ce-455a-48cc-b5dd-d81eaefcf136.png">
 
-When Snyk Container scans an image, using any of the available integrations, we first find the software installed in the image, including:
+Snyk Container が提供されているインテグレーションを使ってイメージをスキャンすると、まずイメージに含まれるソフトウェアを検出します。これらのソフトウェアには次のものが含まれます。
 
-1. dpkg, rpm and apk operating systems packages.
-1. Popular unmanaged software, ie. installed outside a package manager.
-1. Application packages based on the presence of a manifest file.
+1. dpkg、rpm、apk のオペレーションシステム・パッケージ
+1. アンマネージドな (すなわちパッケージマネージャーを使わずにインストールされた) ソフトウェア
+1. マニフェストファイルの存在により検出されたアプリケーションパッケージ
 
-_Note: the container does not need to be run as Snyk reads the info from the file system; therefore, no container or foreign code needs to be run in order to successfully scan._
+__注: Snyk は必要な情報をファイルシステムより取得するため、コンテナを実行する必要はありません。よって、スキャンを完了するためにコンテナや外部コードの実行は必要ありません。__
 
-After we have the list of installed software, we look that up against our vulnerability database, which combines public sources with proprietary research
+インストール済みソフトウェアのリストを検出すると、次に Snyk はそれらを脆弱性データベースと照合します。このデータベースは公開情報と独自の研究成果を組み合わせたものです。
 
-* Let's go ahead and click on the "**latest**" link to view the container issues as part of the scan
+* "**latest**" のリンクを選択して、スキャン結果の一部であるコンテナ脆弱性を確認しましょう
 
 ![alt tag](https://i.ibb.co/HGS4MSP/snyk-container-7.png)
 
-One thing you will notice is recommendations for upgrading the base image. This is handy as we can remove a substantial amount of issues just by using an alternative base image from minor upgrades to major upgrades if available will be shown including what issues will remain if the basde image is changed and the container re-built.  
+ここで、ベースイメージの更新が推奨されていることに気づくはずです。ベースイメージを置き換えるだけで数多くの脆弱性を修正することができるため、これは非常に便利です。マイナーバージョンアップやメジャーバージョンアップを用いた更新の選択肢が提示されると共に、ベースイメージを更新してコンテナを再構築した場合に残される脆弱性についても情報が提供されます。
 
-The supported base images can be found at this [link](https://snyk.io/docker-images/)
+サポート対象のベースイメージについてはこの[リンク](https://snyk.io/docker-images/)でご確認ください。
 
-For each Vulnerability, Snyk displays the following ordered by our [Proprietary Priority Score](https://snyk.io/blog/snyk-priority-score/) :
+検出された脆弱性はデフォルトでは [Priority Score](https://snyk.io/blog/snyk-priority-score/) でソートされ、脆弱性ごとに以下の情報が提供されます。
 
-1. The module (O/S, base image or user instruction layer) that introduced it and, in the case of transitive dependencies, its direct dependency
-1. Details on the path and proposed Remediation, as well as the specific vulnerable functions
-1. Overview
-1. Exploit maturity
-1. Links to CWE, CVE and CVSS Score
-1. Social Trends
-1. Plus more ...
+1. 脆弱性を混入させたモジュール (OS、ベースイメージまたはユーザーレイヤーのいずれであるか) 
+1. パスと修正方法
+1. エクスプロイトマチュリティ (攻撃可能性)
+1. CWE、CVE、CVSS へのリンク
+1. Snyk 脆弱性 DB へのリンク
+1. ソーシャルネットワークにおけるトレンド
 
-## Step 5 Find vulnerabilities in Goof’s Dockerfile
+## Step 5 プロジェクトの追加 (Dockerfile のスキャン)
 
-Snyk detects vulnerable base images by scanning your Dockerfile when importing a Git repository. This allows you to examine security issues before building the image, so helps solve potential problems before they land in your registry or in production.
+Snyk は Git リポジトリのインポート時に、Dockerfile のスキャンを通じて脆弱性のあるベースイメージを検出することができます。これによりイメージのビルド前にセキュリティ上の問題をチェックすることができるため、脆弱性がレジストリや本番環境にたどり着く前にその問題を解決することが可能です。
 
-Now that Snyk is connected to your GitHub Account, import the Repo into Snyk as a Project as this contains a Dockerfile.
+Snyk は GitHub レポジトリと接続済みのため、リポジトリをインポートして Dockerfile をスキャンしてみましょう。
 
-* Navigate to Projects
-* Click "**Add Project**" then select "**GitHub**"
-* Click on the Repo "goof" that you forked earlier at Step 1.
+* Projects タブを選択する
+* "**Add Project**" ボタンを選択し、続いて "**GitHub**" を選択する
+* Step 1 でフォークしたリポジトリ "nodejs-goof" を選択する
+* "**Add selected repositories**" ボタンを選択する
 
 ![alt tag](https://i.ibb.co/q9Rsxsh/snyk-starter-open-source-3.png)
 
-_Note: The import can take up to one minute, so you can view the import log while it's running as shown below_
+__注: インポートには 1 分程度を要します。View log のリンクから Import の状況を確認することができます。__
 
 ![alt tag](https://i.ibb.co/RQsX6jZ/snyk-starter-open-source-14.png)
 
-* Once imported you should see a reference for the Dockerfile as shown below. 
+* インポートが完了すると、次のように Dockerfile への参照が確認できます。
 
 ![alt tag](https://i.ibb.co/1rNMFhC/snyk-container-9.png)
 
-* Go ahead and click on the Dockerfile this is similar to what a scan of a container from a registry looks like BUT this tim we are scanning a Dockerfile itself versus the full container image.
+* Dockerfile を選択してスキャン結果を確認します。レジストリからのコンテナイメージのスキャン結果と中身は似ていますが、ここでは Dockerfile をスキャンしていることに注意してください。
 
-In a Dockerfile project, you can find the relevant metadata of the Dockerfile and the base image used. If the base image is an [Official Docker image](https://docs.docker.com/docker-hub/official_images/), the results include recommendations for upgrades to resolve some of the discovered vulnerabilities
+Dockerfile プロジェクトでは、Dockerfile のメタデータとそこで使われているベースイメージについての情報が表示されます。ベースイメージが [Docker 公式イメージ](https://docs.docker.com/docker-hub/official_images/)であれば、スキャン結果にはベースイメージの更新の推奨が含まれ、検出された脆弱性の一部を更新を通じて修正できます。
 
-## Step 6 Fix the Dockerfile FROM tag using a Pull Request
+## Step 6 Pull Request によるベースイメージの更新
 
-Here we will go ahead and fix our Dockerfile using the "**Open a Fix PR**" button as follows:
+次のように "**Open a Fix PR**" ボタンを使って Dockerfile で修正を行ってみましょう。
 
-* Click on "**Open a Fix PR**" for the base image "**node:16.6.0-slim**" as per below
+* ベースイメージ "**node:16.17-bullseye-slim**" の隣にある "**Open a fix PR**" ボタンを選択します
 
-![alt tag](https://i.ibb.co/5kY26FR/snyk-container-13.png)
+<img width="1280" alt="image" src="https://user-images.githubusercontent.com/95601557/194785091-e09a757c-14f0-4ba2-9b63-3f3e7d7d069c.png">
 
-* Click on "**Open a Fix PR**" on the resulting page as shown below
+* 表示されたページ内の "**Open a Fix PR**" ボタンを選択します
 
 ![alt tag](https://i.ibb.co/C0tn01C/snyk-container-14.png)
 
-* A PR is then created as show below. "**Files Changed**" will show you what it's updating in the Dockerfile itself
+* Pull Request が作成されます。"**Files Changed**" を選択すると、Dockerfile の変更内容を表示することができます
 
 ![alt tag](https://i.ibb.co/py4GdJS/snyk-container-15.png)
 
-* Click on "**Merge Pull Request**" button as shown below
+* "**Merge Pull Request**" 選択して Pull Request をマージします
 
 ![alt tag](https://i.ibb.co/hCwDCFP/snyk-container-16.png)
 
-* Return to the projects dashboard and you will see a new scan has occurred automatically and now our Dockerfile shows much less issues than previously. Of course until we build a new container and add it to the registry the container itself will still have the old base image in place.
+* Snyk Web UI へ戻ると、自動的にスキャンが実行され、Dockerfile から検出される脆弱性の数は少なくなってことに気づくでしょう。当然のことながら、コンテナをビルドし直して、それをレジストリに push (送信) しない限り、レジストリ上のコンテナにはこれまでの古いベースイメージが含まれます。
 
 ![alt tag](https://i.ibb.co/pbqmR1v/snyk-container-17.png)
 
-## Step 7 Container Test using the Snyk CLI
+## Step 7 Snyk CLI を用いたコンテナイメージのスキャン
 
-The Snyk CLI can run a container test on containers sitting in a registry and even your local docker deamon if you like. All the Snyk CLI needs is access to the registry itself which is for public Docker Hub images only requires a "docker login" to achieve that. The following examples show how to use the Snyk CLI to issue a container test.
+Snyk CLI はコンテナレジストリ内の、また、ローカルの Docker daemon 内にあるコンテナイメージをスキャンすることができます。その際に Snyk CLI が必要とするのはレジストリへのアクセスで、そのためには "docker login" の実行が必要となります。以下の実行例では Snyk CLI からコンテナスキャンを行います。
 
-* Before we get started please make sure you have setup the Snyk CLI. There are various install options as per the links below. Using the prebuilt binaries means you don't have to install NPM to install the Snyk CLI.
+* まず Snyk CLI のインストールと設定を完了しましょう。以下のリンクにて説明されているように、複数のインストール方法があります。ビルド済みバイナリを利用する場合は、NPM のインストールは必要ありません。
 
-1. Install Page - https://support.snyk.io/hc/en-us/articles/360003812538-Install-the-Snyk-CLI
-1. Prebuilt Binaries - https://github.com/snyk/snyk/releases
+1. インストールページ - https://docs.snyk.io/snyk-cli/install-the-snyk-cli ([Snyk CLI のインストールとアップデート](https://qiita.com/ToshiAizawa/items/c090cbd525e45cc5ae51))
+1. ビルド済みバイナリ - https://github.com/snyk/snyk/releases
 
-_Note: Make sure you have the following version installed or later_
+__注: 次のバージョン、またはそれ以降のバージョンがインストールされていることを確認してください__
 
-```bash
+```
 $ snyk --version
-1.675.0
+1.996.0
 ```
 
-* Authorize the snyk CLI with your account as follows
+* 次のとおり、Snyk CLI をご自身のアカウントで認証します (`snyk auth` コマンド実行後、認証用ページが表示されます。"**Authenticate**" ボタンをクリックしてください。Snyk に未ログインの場合はログインした後に "**Authenticate**" ボタンが表示されます)
 
-```bash
+```
 $ snyk auth
 
 Now redirecting you to our auth page, go ahead and log in,
@@ -234,25 +239,25 @@ and once the auth is complete, return to this prompt and you'll
 be ready to start using snyk.
 
 If you can't wait use this url:
-https://snyk.io/login?token=ff75a099-4a9f-4b3d-b75c-bf9847672e9c&utm_medium=cli&utm_source=cli&utm_campaign=cli&os=darwin&docker=false
+https://snyk.io/login?token=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX&utm_medium=cli&utm_source=cli&utm_campaign=cli&os=darwin&docker=false
 
 Your account has been authenticated. Snyk is now ready to be used.
 ```
 
-_Note: If you are having trouble authenticating via a browser with the Snyk App you can setup authentication using the API token as shown below
-[Authenticate using your API token](https://support.snyk.io/hc/en-us/articles/360004008258-Authenticate-the-CLI-with-your-account#UUID-4f46843c-174d-f448-cadf-893cfd7dd858_section-idm4557419555668831541902780562)_
+__注: 上記で説明したブラウザから Snyk Web UI による認証でうまくいかない場合は、次に説明する API token による認証をお試しください。
+[API token で CLI を認証する (Authenticate the CLI using your API token)](https://docs.snyk.io/snyk-cli/authenticate-the-cli-with-your-account)__
 
-_Note: Testing container images through the CLI performs the following steps, so it can take a few minutes on the first scan [Test images with the Snyk Container CLI](https://support.snyk.io/hc/en-us/articles/360003946917-Test-images-with-the-Snyk-Container-CLI)_
+__注: CLI を用いたコンテナイメージのスキャンは以下で説明する流れで実行されるため、初回スキャンには数分を要します。__([CLI によるコンテナイメージのスキャン (Test images with the Snyk Container CLI)](https://docs.snyk.io/products/snyk-container/snyk-cli-for-container-security#testing-an-image) より引用)
 
-1. Downloads the image if it’s not already available locally in your Docker daemon
-2. Determines the software installed in the image
-3. Sends that bill of materials to the Snyk Service
-4. Returns a list of the vulnerabilities in your image
+1. イメージがローカルの Docker daemon 内に存在しない場合、ダウンロードします
+1. イメージ内に組み込まれたソフトウェアを検出します
+1. 検出されたソフトウェアのリストを Snyk に送信します
+1. Snyk はイメージ内の脆弱性のリストを返します
 
-* You have already built "docker-goof" so go ahead and test that as shown below, please use your dockerhub account username rather than "**pasapples**"
+* あらかじめ "docker-goof" をビルドしているので、このイメージをスキャンします。"**DOCKER_HUB_USERNAME**" はあなたの Docker Hub ユーザー名に置き換えてください。
 
-```bash
-$ snyk container test pasapples/docker-goof:latest
+```
+$ snyk container test DOCKER_HUB_USERNAME/docker-goof:latest
 
 ...
 
@@ -279,14 +284,14 @@ node:16.6.0-buster        343              3 critical, 30 high, 49 medium, 261 l
 node:16.6.0-stretch-slim  78               6 critical, 11 high, 8 medium, 53 low
 ```
 
-* The following container test is for a Spring Boot application 
+* 次のコンテナスキャンは Spring Boot のアプリケーションです 
 
-```bash
+```
 $ snyk container test pasapples/springbootemployee:cnb
 
 ....
 
-Organization:      pas.apicella-41p
+Organization:      YOUR_SNYK_ORG
 Package manager:   deb
 Project name:      docker-image|pasapples/springbootemployee
 Docker image:      pasapples/springbootemployee:cnb
@@ -310,14 +315,14 @@ Base Image    Vulnerabilities  Severity
 ubuntu:20.04  15               0 critical, 0 high, 0 medium, 15 low
 ```
 
-* There is also a Distroless version if you would like to try with that
+* ディストリビューションレスのバージョンもあるので、こちらもスキャンしてみます
 
-```bash
+```
 $ snyk container test pasapples/spring-crud-thymeleaf-demo:distroless
 
 ...
 
-Organization:      pas.apicella-41p
+Organization:      YOUR_SNYK_ORG
 Package manager:   deb
 Project name:      docker-image|pasapples/spring-crud-thymeleaf-demo
 Docker image:      pasapples/spring-crud-thymeleaf-demo:distroless
@@ -327,9 +332,9 @@ Licenses:          enabled
 Tested 20 dependencies for known issues, found 38 issues.
 ```
 
-* The CLI also allows us to report vulnerabilities of provided level or higher. Now let's go ahead and set that to HIGH using "**--severity-threshold=high**". Only issues tagged as HIGH or CRITICAL will appear on this test run.
+* CLI は特定の深刻度 (Severity) 以上の脆弱性だけを検出させることも可能です。深刻度のしきい値フラグ "**--severity-threshold=high**" を指定して深刻度 HIGH 以上の脆弱性を調べてみます。深刻度が HIGH または CRITICAL の脆弱性だけが検出されます。
 
-```shell
+```
 $ snyk container test --severity-threshold=high pasapples/springbootemployee:cnb
 
 Testing pasapples/springbootemployee:cnb...
@@ -356,7 +361,7 @@ Testing pasapples/springbootemployee:cnb...
 
 
 
-Organization:      pas.apicella-41p
+Organization:      YOUR_SNYK_ORG
 Package manager:   deb
 Project name:      docker-image|pasapples/springbootemployee
 Docker image:      pasapples/springbootemployee:cnb
@@ -381,7 +386,7 @@ ubuntu:20.04  15               0 critical, 0 high, 0 medium, 15 low
 
 ```
 
-The severity threshold allows you to break a build in the event of this threshold being meet using the exit code of the command. 
+深刻度のしきい値を用いると、CI/CD パイプライン内のスキャンにおいて特定レベル以上の深刻度の脆弱性が見つかった場合、ビルドをブロックすることができます。Snyk CLI コマンドの終了コードは以下の通りです。 
 
 ```
 Possible exit codes and their meaning:
@@ -392,35 +397,26 @@ Possible exit codes and their meaning:
 3: failure, no supported projects detected
 ```
 
-* Finally, can monitor container images using the "**snyk container monitor**" command as shown below, please perform this step now using a different container image this time
+* 最後になりますが、次のとおり "**snyk container monitor**" コマンドを用いてコンテナイメージの脆弱性を継続的に監視することができます。では今回は別のコンテナイメージに対してこのコマンドを実行してみましょう
 
-```bash
+```
 $ snyk container monitor pasapples/spring-crud-thymeleaf-demo:latest --project-name=spring-crud-thymeleaf-demo-container
 
 Monitoring pasapples/spring-crud-thymeleaf-demo:latest (spring-crud-thymeleaf-demo-container)...
 
-Explore this snapshot at https://app.snyk.io/org/workshops-admin-org/project/1cce2457-a6ac-4f09-8465-9ca596a966fa/history/a253804a-bdb2-4ed1-a7d6-54a321e7f725
+Explore this snapshot at https://app.snyk.io/org/YOUR_SNYK_ORG/project/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/history/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 
 Notifications about newly disclosed issues related to these dependencies will be emailed to you.
 ```
 
 ![alt tag](https://i.ibb.co/vY63PXR/snyk-container-12.png)
 
-* Return to the Snyk App and this time you will see the container image 
+* Snyk Web UI の Project タブを確認すると、上のコンテナイメージのスキャン結果を確認することができます 
 
-## Step 8 Container Reporting Dashboard
-
-_Note: It can take up to an hour for report pages to show full details so if you see very little detail that would be why_
-
-* Back to the Snyk App navigate to the projects page and select "**View report**" for the "**docker-goof**" project as shown below
-
-* The following report page for the "**docker-goof**" container should be displayed
-
-![alt tag](https://i.ibb.co/yPFVyt2/snyk-container-11.png)
-
-Thanks for attending and completing this workshop
+以上でワークショップ完了です。お疲れさまでした！ 本日はご参加ありがとうございました。
 
 ![alt tag](https://i.ibb.co/7tnp1B6/snyk-logo.png)
 
 <hr />
 Pas Apicella [pas at snyk.io] is an Solution Engineer at Snyk APJ
+Toshi Aizawa [toshi.aizawa at snyk.io] is an Solutions Engineer at Snyk APJ
