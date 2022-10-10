@@ -418,5 +418,5 @@ Notifications about newly disclosed issues related to these dependencies will be
 ![alt tag](https://i.ibb.co/7tnp1B6/snyk-logo.png)
 
 <hr />
-Pas Apicella [pas at snyk.io] is an Solution Engineer at Snyk APJ
+Pas Apicella [pas at snyk.io] is an Solution Engineer at Snyk APJ<br />
 Toshi Aizawa [toshi.aizawa at snyk.io] is an Solutions Engineer at Snyk APJ
