@@ -46,7 +46,7 @@ __注: 以下のステップでは主に Mac の利用を想定しています�
 Snyk を GitHub に接続してリポジトリをインポートできるようにします。以下のステップを実行してください。
 
 * http://app.snyk.io へログインする (サインアップをしていない場合はここでサインアップ)
-* Integrations タブ -> Source Control -> GitHub を選択する
+* Integrations -> Source Control -> GitHub を選択する
 * クレデンシャルを設定して GitHub アカウントへ接続する
 
 <img width="1246" alt="Untitled" src="https://user-images.githubusercontent.com/45160975/207767326-4ba65053-1db9-4ddc-9732-9841f165666e.png">
@@ -56,7 +56,7 @@ Snyk を GitHub に接続してリポジトリをインポートできるよう�
 
 Docker Hub と Snyk の間でインテグレーションを有効化することにより、コンテナ脆弱性の管理を開始できます。次のとおり Docker Hub への接続を行います。
 
-* Integrations タブ -> Container Registries -> Docker Hub を選択する
+* Integrations -> Container Registries -> Docker Hub を選択する
 * Docker Hub の Username と Access Token を入力した後、Save を選択する
 
 Snyk が入力されたクレデンシャルを確認した後、ページはリロードされ、Docker Hub のインテグレーションに関する情報と Add your Docker Hub images to Snyk ボタンが表示されます。Docker Hub へ接続が行われたことを示すメッセージも緑色のボックス内に表示されます。また、Docker Hub への接続が失敗した場合は、失敗を伝えるメッセージが表示されます。
