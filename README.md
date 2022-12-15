@@ -49,7 +49,8 @@ Snyk を GitHub に接続してリポジトリをインポートできるよう�
 * Integrations タブ -> Source Control -> GitHub を選択する
 * クレデンシャルを設定して GitHub アカウントへ接続する
 
-![alt tag](https://i.ibb.co/bPqqybM/snyk-starter-open-source-1.png)
+<img width="1246" alt="Untitled" src="https://user-images.githubusercontent.com/45160975/207767326-4ba65053-1db9-4ddc-9732-9841f165666e.png">
+
 
 ## Step 3 Docker Hub インテグレーションの設定
 
@@ -62,7 +63,7 @@ Snyk が入力されたクレデンシャルを確認した後、ページはリ
 
 注: Access Token フィールドには、Docker Hub のパスワードもしくは [access token](https://docs.docker.com/docker-hub/access-tokens/) を入力することができます。Docker Hub アカウントに対して 2FA が有効になっている場合は、access token のみが利用できます。
 
-![alt tag](https://i.ibb.co/hYyb7RD/snyk-container-1.png)
+<img width="1885" alt="container" src="https://user-images.githubusercontent.com/45160975/207767499-a3342f3c-e04d-4648-9794-2ce467e361a7.png">
 
 ![alt tag](https://i.ibb.co/pWkKGmh/snyk-container-2.png)
 
@@ -170,18 +171,20 @@ Snyk は Git リポジトリのインポート時に、Dockerfile のスキャ�
 
 Snyk は GitHub レポジトリと接続済みのため、リポジトリをインポートして Dockerfile をスキャンしてみましょう。
 
-* Projects タブを選択する
+* 左側のメニューよりProjectsを選択する
 * "**Add Project**" ボタンを選択し、続いて "**GitHub**" を選択する
 * Step 1 でフォークしたリポジトリ "nodejs-goof" を選択する
 * "**Add selected repositories**" ボタンを選択する
 
-![alt tag](https://i.ibb.co/q9Rsxsh/snyk-starter-open-source-3.png)
+<img width="1885" alt="add_github_project" src="https://user-images.githubusercontent.com/45160975/207768130-b39c9491-9cc7-4fd4-8ef6-849adc79fcf0.png">
+
 
 __注: インポートには 1 分程度を要します。View log のリンクから Import の状況を確認することができます。__
 
 ![alt tag](https://i.ibb.co/RQsX6jZ/snyk-starter-open-source-14.png)
 
-* インポートが完了すると、次のように Dockerfile への参照が確認できます。
+* インポートが完了すると、次のように Dockerfile への![Uploading add_project.png…]()
+参照が確認できます。
 
 ![alt tag](https://i.ibb.co/1rNMFhC/snyk-container-9.png)
 
