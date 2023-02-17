@@ -183,8 +183,7 @@ __注: インポートには 1 分程度を要します。View log のリンク�
 
 ![alt tag](https://i.ibb.co/RQsX6jZ/snyk-starter-open-source-14.png)
 
-* インポートが完了すると、次のように Dockerfile への![Uploading add_project.png…]()
-参照が確認できます。
+* インポートが完了すると、次のように Dockerfile への参照が確認できます。
 
 ![alt tag](https://i.ibb.co/1rNMFhC/snyk-container-9.png)
 
@@ -196,7 +195,7 @@ Dockerfile プロジェクトでは、Dockerfile のメタデータとそこで�
 
 次のように "**Open a Fix PR**" ボタンを使って Dockerfile で修正を行ってみましょう。
 
-* ベースイメージ "**node:16.17-bullseye-slim**" の隣にある "**Open a fix PR**" ボタンを選択します
+* ベースイメージ "**node:16.17-bullseye-slim**" の隣にある "**Open a fix PR**" ボタンを選択します (ただし、"**node:16.17-bullseye-slim**" などのベースイメージの選択肢はタイミングにより変動します。その場合は別のベースイメージを選んでください)
 
 <img width="1280" alt="image" src="https://user-images.githubusercontent.com/95601557/194785091-e09a757c-14f0-4ba2-9b63-3f3e7d7d069c.png">
 
