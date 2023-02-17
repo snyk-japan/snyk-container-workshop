@@ -61,7 +61,7 @@ Docker Hub と Snyk の間でインテグレーションを有効化すること
 
 Snyk が入力されたクレデンシャルを確認した後、ページはリロードされ、Docker Hub のインテグレーションに関する情報と Add your Docker Hub images to Snyk ボタンが表示されます。Docker Hub へ接続が行われたことを示すメッセージも緑色のボックス内に表示されます。また、Docker Hub への接続が失敗した場合は、失敗を伝えるメッセージが表示されます。
 
-注: Access Token フィールドには、Docker Hub のパスワードもしくは [access token](https://docs.docker.com/docker-hub/access-tokens/) を入力することができます。Docker Hub アカウントに対して 2FA が有効になっている場合は、access token のみが利用できます。
+注: Access Token フィールドには、Docker Hub のパスワードもしくは [access token](https://docs.docker.com/docker-hub/access-tokens/) を入力することができます。Docker Hub アカウントに対して 2FA が有効になっている場合は、access token のみが利用できます。(Step 4 でイメージを push するので、access token の permissions として `Read & Write` を設定してください)
 
 <img width="1885" alt="container" src="https://user-images.githubusercontent.com/45160975/207767499-a3342f3c-e04d-4648-9794-2ce467e361a7.png">
 
